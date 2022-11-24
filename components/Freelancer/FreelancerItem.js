@@ -1,57 +1,119 @@
-import {Image, Text, View, StyleSheet} from "react-native";
-import {Colors} from "../../consts/styles";
+import {Image, View, StyleSheet, Pressable} from "react-native";
 import Button from "../UI/Button";
+import {useNavigation} from "@react-navigation/native";
+import CustomText from "../UI/Text";
+import {Ionicons} from "@expo/vector-icons";
+import {Colors} from "../../consts/styles";
+import CountryFlag from "react-native-country-flag";
+import {useEffect, useRef, useState} from "react";
+import {getAllFreelancers} from "../../util/freelancer";
 
-function JobItem() {
+function FreelancerItem({data}) {
+    const navigation = useNavigation();
+    const [jobList, setJobList] = useState([])
 
+    function clickHandler() {
+        navigation.navigate('FreelancerDetails', {id: '1'});
+    }
+
+    async function allJobs() {
+        setJobList(await getAllFreelancers());
+        console.log(jobList.data);
+    }
+
+    // useEffect(async () => {
+    //     allJobs();
+    //     data = {
+    //         full_user_name: 'Raul B.',
+    //         username: '@raulbass',
+    //         rate: 4.8,
+    //         country: 'Albania',
+    //         payment: '80$',
+    //         title: 'Graphic Designer & Software Architect',
+    //         description: 'Strong experience in software Architecture & Graphic Design. Working with Angular ' +
+    //             '6 (backwards captile will work on 2, 4, 5) .NET core Web API is the main focus for back-end services',
+    //         skills: ['Website Design', 'Graphic Design', 'Software Architecture']
+    //     }
+    // }, [])
+
+    const data2 = {
+        full_user_name: 'Raul B.',
+        username: '@raulbass',
+        rate: 4.8,
+        country: 'Albania',
+        payment: '80$',
+        title: 'Graphic Designer & Software Architect',
+        description: 'Strong experience in software Architecture & Graphic Design. Working with Angular ' +
+            '6 (backwards captile will work on 2, 4, 5) .NET core Web API is the main focus for back-end services',
+        skills: ['Website Design', 'Graphic Design', 'Software Architecture']
+    }
+
+    function skillList() {
+        // let skills = [];
+        // if (data2.skills) {
+        //     data2.skills.forEach((item, i) => {
+        //         if (i !== data2.skills.length - 1)
+        //             item += ' . '
+        //         skills.push(<CustomText>{item}</CustomText>)
+        //
+        //     })
+        // }
+
+        return <CustomText>hhh</CustomText>
+    }
 
     return (
-        <View style={styles.container}>
+        <Pressable onPress={clickHandler} style={styles.container}>
             <View style={styles.content}>
                 <View style={styles.row}>
-                    <Image
-                        style={styles.tinyLogo}
-                        source={require('../../assets/techelder.png')}
-                    />
+                    {/*<Image*/}
+                    {/*    style={styles.tinyLogo}*/}
+                    {/*    source={require('../../assets/techelder.png')}*/}
+                    {/*/>*/}
                     <View>
                         <View style={styles.row}>
-                            <Text style={styles.text}>Raul B. </Text>
-                            <Text style={styles.text}> @raulbass</Text>
+                            {/*<CustomText style={styles.text}>{data2.full_user_name} </CustomText>*/}
+                            {/*<CustomText style={styles.text}> @{data2.username}</CustomText>*/}
                         </View>
-                        <View>
-                            {/*<Icon></Icon>*/}
-                            <Text style={styles.text}>rate 5.0</Text>
+                        {/*<Icon></Icon>*/}
+                        <View style={styles.row}>
+                            {/*<View style={styles.starIcon}>*/}
+                            {/*    <Ionicons name='star' size={15} color={Colors.primary300}/>*/}
+                            {/*</View>*/}
+                            {/*<CustomText>{data2.rate}</CustomText>*/}
                         </View>
                         <View style={styles.row}>
-                            <Text style={styles.text}>State, City</Text>
+                            {/*<View style={styles.starIcon}>*/}
+                            {/*    <CountryFlag isoCode="al" size={17}/>*/}
+                            {/*</View>*/}
+                            {/*<CustomText style={styles.text}>{data2.country}</CustomText>*/}
                         </View>
                     </View>
                 </View>
                 <View style={styles.row}>
-                    <Text style={styles.price}>$80 USD</Text>
-                    <Text style={styles.hour}> per hour</Text>
+                    {/*<CustomText style={styles.price}>${data2.payment} USD</CustomText>*/}
+                    <CustomText style={styles.hour}> per hour</CustomText>
                 </View>
                 <View>
-                    <Text style={styles.title}>
-                        Graphic Designer & Software Architect
-                    </Text>
+                    <CustomText style={styles.title}>
+                        {/*{data2.title}*/}
+                    </CustomText>
                 </View>
                 <View>
-                    <Text style={styles.text}>
-                        Strong experience in software Architecture & Graphic Design. Working with Angular 6
-                        (backwards... <Text style={styles.text}>more</Text>
-                    </Text>
+                    <CustomText style={styles.text} seeMore={true} numberOfLines={2}>
+                        {data2.description}
+                    </CustomText>
                 </View>
-                <View style={styles.category}>
-                    <Text style={styles.text}>Website Design . Graphic Design . Software Architecture</Text>
-                </View>
+                {/*<View style={styles.category}>*/}
+                    {/*<CustomText style={styles.text}>{skillList()}</CustomText>*/}
+                {/*</View>*/}
             </View>
-            <Button styles={styles.button}>Hire</Button>
-        </View>
+            {/*<Button style={styles.button}>Hire</Button>*/}
+        </Pressable>
     )
 }
 
-export default JobItem;
+export default FreelancerItem;
 
 
 const styles = StyleSheet.create({
@@ -70,10 +132,12 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
+        paddingVertical: 2
     },
     price: {
         fontWeight: 'bold',
-        fontSize: 24
+        fontSize: 24,
+        marginVertical: 3
     },
     hour: {
         paddingTop: 7,
@@ -82,18 +146,22 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        fontSize: 15
+        fontSize: 15,
+        marginVertical: 3
     },
     text: {
         color: '#333333',
         lineHeight: 20
     },
     category: {
-      marginTop: 10
+        marginTop: 10
     },
     button: {
-        marginTop: 530,
-        backgroundColor: 'red',
-        color: 'red'
+        paddingTop: 10,
+        paddingBottom: 0,
+        height: 40,
+    },
+    starIcon: {
+        marginRight: 5
     }
 })

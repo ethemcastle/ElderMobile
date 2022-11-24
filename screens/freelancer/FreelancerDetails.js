@@ -1,34 +1,64 @@
 import {ScrollView, View, StyleSheet, Text} from "react-native";
 import {Colors} from "../../consts/styles";
-import FreelancerPersonal from "./FreelancerPersonal";
-import FreelancerAchievements from "./FreelancerAchievements";
-import CustomText from "../UI/Text";
-import FreelancerReview from "./FreelancerReview";
-import TopSkillsFreelancer from "./TopSkillsFreelancer";
+import FreelancerPersonal from "../../components/Freelancer/FreelancerPersonal";
+import FreelancerAchievements from "../../components/Freelancer/FreelancerAchievements";
+import CustomText from "../../components/UI/Text";
+import FreelancerReview from "../../components/Freelancer/FreelancerReview";
+import TopSkillsFreelancer from "../../components/Freelancer/TopSkillsFreelancer";
+import SeeMore from "react-native-see-more-inline";
 
 
 function FreelancerDetails(props) {
-    const {data} = props.route.params
+    const {id} = props.route.params
+
+    const data = {
+        full_user_name: 'Raul B.',
+        username: '@nrlglobalservic6',
+        rate: '4.8',
+        country: 'Albania',
+        payment: '80',
+        jobs_completed: '100',
+        on_time: '100',
+        on_budget: '100',
+        on_repeat_hire_rate: '100',
+        title: 'Graphic Designer & Software Architect',
+        description: 'Strong experience in Software Architecture & Graphic ' +
+            'design. Working with Angular 6 (backwards compatible as well, ' +
+            'will work on 2, 4, 5) .NET core Web API is the main focus for back-end services',
+        review_title: 'GI Software Developement - Back end system ongoing work',
+        review_description: ' Raul was excellent to work with. He is very attentive\n' +
+            'to details and his expertise was above and beyon.',
+        review_user: 'Robert G.',
+        review_username: '@regifford12',
+        review_date_created: '7 month ago',
+        skills: [
+            'Website Design',
+            'Graphic Design',
+            'Software Architecture',
+            'Software Development'
+        ]
+    }
     return (
         <ScrollView>
-            <FreelancerPersonal/>
-            <FreelancerAchievements/>
+            <FreelancerPersonal data={data}/>
+            <FreelancerAchievements data={data}/>
             <View style={styles.detailContainer}>
-                <CustomText style={styles.detailsHeader}>Graphic Designer & Software Architect</CustomText>
-                <CustomText style={styles.details}>
-                    Strong experience in Software Architecture & Graphic design.
-                    Working with Angular 6 (backwards compatible as well, will work on 2, 4, 5) .NET
-                    core Web API is the main focus for back-end services
-                </CustomText>
+                <CustomText style={styles.detailsHeader}>{data.title}</CustomText>
+
+                <CustomText seeMore={true} style={styles.details} numberOfLines={1}>{data.description}</CustomText>
+
             </View>
 
             <View style={styles.spacer}></View>
 
-            <FreelancerReview/>
+            <FreelancerReview data={data}/>
 
             <View style={styles.spacer}></View>
 
-            <TopSkillsFreelancer/>
+            <TopSkillsFreelancer data={data}/>
+
+            <View style={styles.spacer}></View>
+
         </ScrollView>
     )
 }

@@ -11,8 +11,6 @@ function Filter() {
     const authCtx = useContext(AuthContext);
 
     function onChangeSearch(value) {
-        console.log(1111111)
-        console.log(value)
         setSearchValue(value)
     }
 
